@@ -6,6 +6,7 @@
     integer :: write_interval_for_history
     integer :: write_interval_for_profile
     integer :: starting_number_for_profile
+    logical :: suppress_first_step_output
     
     character(len=256) :: output_directory
    
@@ -13,16 +14,9 @@
     character(len=32) :: which_solver
     integer :: maximum_number_of_models
     real(dp) :: maximum_timestep
-    real(dp) :: maximum_end_time
     real(dp) :: integration_tolerance
     real(dp) :: min_lg_temperature_integration
     real(dp) :: max_lg_temperature_integration
-    
-    logical :: use_other_set_Qimp
-    
-    real(dp), dimension(num_extra_real_controls) :: extra_real_controls
-    integer, dimension(num_extra_integer_controls) :: extra_integer_controls
-    logical, dimension(num_extra_logical_controls) :: extra_logical_controls
     
     logical :: fix_core_temperature
     real(dp) :: core_temperature
@@ -30,9 +24,10 @@
     
     logical :: fix_atmosphere_temperature_when_accreting
     real(dp) :: atmosphere_temperature_when_accreting
-    real(dp) :: Mdot
     
-    real(dp) :: start_time
+    integer :: number_epochs
+    real(dp), dimension(max_number_epochs) :: epoch_Mdots
+    real(dp), dimension(0:max_number_epochs) :: epoch_boundaries
     
     real(dp) :: core_mass
     real(dp) :: core_radius
@@ -56,6 +51,7 @@
     real(dp) :: Q_heating_shallow ! MeV
     
     ! controls for the superfluidity
+    logical :: use_other_sf_critical_temperatures
     character(len=32) :: which_proton_1S0_gap
     character(len=32) :: which_neutron_1S0_gap
     character(len=32) :: which_neutron_3P2_gap
@@ -99,5 +95,11 @@
     character(len=8) :: atm_model
     
     ! controls for the composition
+    logical :: use_other_set_Qimp
     logical :: fix_Qimp
     real(dp) :: Qimp
+
+    ! controls for user-defined routines
+    real(dp), dimension(num_extra_real_controls) :: extra_real_controls
+    integer, dimension(num_extra_integer_controls) :: extra_integer_controls
+    logical, dimension(num_extra_logical_controls) :: extra_logical_controls
